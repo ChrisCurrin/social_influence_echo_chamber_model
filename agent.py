@@ -5,7 +5,7 @@
 # by Kazutoshi Sasahara
 
 import numpy as np
-from social_media import Message
+from .social_media import Message
 
 
 class Agent(object):

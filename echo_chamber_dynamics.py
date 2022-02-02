@@ -55,6 +55,13 @@ class EchoChamberDynamics(object):
         else:
             return False
 
+    def is_unstable(self, subsample=10, thresh=1.0):
+        """Check if the numerical simulation increases (on average) by more than a threshold"""
+
+        return np.any(
+            np.diff(np.mean(np.abs(self.opinion_data[::subsample]), axis=1)) > thresh
+        )
+
     def export_csv(self, data_dic, ofname):
         dir_path = os.path.join(self.data_dir, "data")
         file_path = os.path.join(dir_path, ofname)
@@ -132,7 +139,9 @@ class EchoChamberDynamics(object):
             self.social_media.update_message_db(t, msg)
 
             # finalize and export data
-            if not nudge and self.is_stationary_state(self.social_media.G):
+            if self.is_unstable(thresh=self.epsilon * 2) or (
+                not nudge and self.is_stationary_state(self.social_media.G)
+            ):
                 self.final_exports(t)
                 break
             elif t >= t_max - 1:

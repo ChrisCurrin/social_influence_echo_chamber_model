@@ -4,15 +4,15 @@
 # Last Update: 20190410
 # by Kazutoshi Sasahara
 
-import pandas as pd
 import numpy as np
 import scipy.stats as stats
 import peakutils
 from scipy.linalg import LinAlgError
 
+
 def screen_diversity(content_values, bins):
     h, w = np.histogram(content_values, range=(-1, 1), bins=bins)
-    return stats.entropy(h+1, base=2)
+    return stats.entropy(h + 1, base=2)
 
 
 def num_opinion_peaks(opinions):

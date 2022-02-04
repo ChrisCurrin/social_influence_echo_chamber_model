@@ -139,7 +139,7 @@ class EchoChamberDynamics(object):
             self.social_media.update_message_db(t, msg)
 
             # finalize and export data
-            if self.is_unstable(thresh=self.epsilon * 2) or (
+            if (t % 100 == 0 and self.is_unstable(thresh=self.epsilon * 2)) or (
                 not nudge and self.is_stationary_state(self.social_media.G)
             ):
                 self.final_exports(t)
